@@ -66,6 +66,25 @@ public class CompanyServiceImpl implements CompanyService{
 	}
 
 
+	@Override
+	public String updateCompany(Long id, CompanyRequest companyRequest) {
+		
+		Optional<CompanyModel> optionalModel = companyRepo.findById(id);
+		if(optionalModel.isPresent()) {
+			CompanyModel model = optionalModel.get();
+			model.setAddress(companyRequest.getAddress());
+			model.setCompanyId(companyRequest.getCompanyId());
+			model.setLegalName(companyRequest.getLegalName());
+			model.setPhoneNo(companyRequest.getPhoneNo());
+			model.setRegistration(companyRequest.getRegistration());
+			model.setUsers(companyRequest.getUsers());
+			companyRepo.save(model);
+			return "Updated";
+		}
+		return "Company Not found to update ";
+	}
+
+
 	
 
 //	@Override

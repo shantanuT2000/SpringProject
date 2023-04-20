@@ -14,6 +14,8 @@ public interface CompanyService {
 	
 	public String saveCompany(CompanyRequest companyRequest);
 	
+	public String updateCompany(Long id,CompanyRequest companyRequest);
+	
     public CompanyResponse getById(Long id);
 	
 	public String deleteCompany(Long id);
