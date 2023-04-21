@@ -2,6 +2,7 @@ package com.Company.entity;
 
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -38,6 +39,7 @@ public class CompanyModel {
     @OneToOne(cascade=CascadeType.ALL)
     @JoinColumn(name="reg_id")
     @JsonManagedReference
+    @JsonIgnore
     private RegistrationModel registration;
     
     @OneToMany(cascade=CascadeType.ALL)

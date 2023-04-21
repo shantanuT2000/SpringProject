@@ -50,7 +50,7 @@ public class UserModel {
 	
 //	@Column(name="is_deleted")
 //	private Boolean isDeleted=false;
-	
+//	
 //	@ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "company_id", insertable = false, updatable = false)
 //	 @JsonBackReference

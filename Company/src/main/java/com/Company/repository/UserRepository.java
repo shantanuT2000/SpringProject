@@ -16,6 +16,9 @@ public interface UserRepository extends JpaRepository<UserModel,Long> {
 
 	@Override
 	public List<UserModel> findAll();
+	
+	@Override
+	public UserModel getById(Long id);
 
 //	@Transactional
 //	@Modifying

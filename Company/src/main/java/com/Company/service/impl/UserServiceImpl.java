@@ -66,6 +66,14 @@ public class UserServiceImpl implements UserService {
 		userRepo.deleteById(id);
 		return "Deleted";
 	}
+
+	@Override
+	public UserResponse getUserById(Long id) {
+		
+		UserModel model = userRepo.getById(id);
+		
+		return responseConverter.entityToUserResponse(model);
+	}
 	
 	
 	
