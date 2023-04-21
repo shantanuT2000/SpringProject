@@ -19,10 +19,10 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Autowired
-	UserRepository userRepo;
+	UserRepository userRepository;
 	
 	@Autowired 
-	RequestConverter  toEntityConverter;
+	RequestConverter  requestConverter;
 	
 	@Autowired
 	ResponseConverter responseConverter;
@@ -30,7 +30,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<UserResponse> getUsers() {
 		
-		List<UserModel> user = userRepo.findAll();
+		List<UserModel> user = userRepository.findAll();
 		
 		return responseConverter.toUserResponseList(user);
 		
@@ -38,14 +38,14 @@ public class UserServiceImpl implements UserService {
 	
 	@Override
 	public String saveUser(UserRequest userRequest) {
-		UserModel userEntity = toEntityConverter.toUserEntity(userRequest);
-	    userRepo.save(userEntity);
+		UserModel userEntity = requestConverter.toUserEntity(userRequest);
+	    userRepository.save(userEntity);
 		return "saved";
 	}
 
 	@Override
 	public String updateUser(Long id,UserRequest userRequest) {
-		Optional<UserModel> user = userRepo.findById(id);
+		Optional<UserModel> user = userRepository.findById(id);
 		if(user.isPresent()) {
 			UserModel savedEntity = user.get();
 			savedEntity.setEmail(userRequest.getEmail());
@@ -54,7 +54,7 @@ public class UserServiceImpl implements UserService {
 			savedEntity.setPassword(userRequest.getPassword());
 			savedEntity.setType(userRequest.getType());
 			
-			userRepo.save(savedEntity);
+			userRepository.save(savedEntity);
 			return "Updated";
 		}
 		
@@ -63,14 +63,14 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public String deleteUser(Long id) {
-		userRepo.deleteById(id);
+		userRepository.deleteById(id);
 		return "Deleted";
 	}
 
 	@Override
 	public UserResponse getUserById(Long id) {
 		
-		UserModel model = userRepo.getById(id);
+		UserModel model = userRepository.getById(id);
 		
 		return responseConverter.entityToUserResponse(model);
 	}

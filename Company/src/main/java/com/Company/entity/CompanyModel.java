@@ -127,5 +127,13 @@ public class CompanyModel {
 		// TODO Auto-generated constructor stub
 	}
 
+	public Boolean getIsDeleted() {
+		return isDeleted;
+	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
 	
 }

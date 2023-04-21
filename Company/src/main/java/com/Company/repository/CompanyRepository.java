@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
+//import org.springframework.data.jpa.repository.Query;
+//import org.springframework.data.repository.query.Param;
 
 
 import com.Company.entity.CompanyModel;
@@ -19,8 +19,8 @@ public interface CompanyRepository extends JpaRepository<CompanyModel, Long> {
 	
 	@Transactional
 	@Modifying
-	@Query("update CompanyModel set isDeleted=true where id=:id")
-	public void deleteById(@Param("id") Long id);
+//	@Query("update CompanyModel set isDeleted=true where id=:id")
+//	public int deleteById(@Param("id") Long id);
 	
 	public CompanyModel getById(Long id);
 	

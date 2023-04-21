@@ -48,23 +48,7 @@ public class UserModel {
 	@Column(name="password",length=18)
 	private String password;
 	
-//	@Column(name="is_deleted")
-//	private Boolean isDeleted=false;
-//	
-//	@ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "company_id", insertable = false, updatable = false)
-//	 @JsonBackReference
-//    private CompanyModel companyUsers;
-	
-	
-//	String compId = companyUsers.getCompanyId();
-//	
-//	public CompanyModel getCompanyUsers() {
-//		return companyUsers;}
-//
-//	public void setCompanyUsers(CompanyModel companyUsers) {
-//		this.companyUsers = companyUsers;
-//	}
+
 
 	public Long getId() {
 		return id;

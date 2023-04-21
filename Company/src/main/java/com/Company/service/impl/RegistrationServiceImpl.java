@@ -21,26 +21,26 @@ import com.Company.transformer.ResponseConverter;
 public class RegistrationServiceImpl implements RegistrationService {
 
 	@Autowired
-	RegistrationRepository regRepo;
+	private RegistrationRepository registrationRepository;
 	
 	@Autowired
-	RequestConverter toEntityConverter;
+	private RequestConverter requestConverter;
 	
 	@Autowired
-	ResponseConverter toResponse;
+	private ResponseConverter responseConverter;
 
 	@Override
 	public List<RegistrationResponse> getRegistrationdetails() {
 		
-		return toResponse.toRegistrationResponseList(regRepo.findAll());
+		return responseConverter.toRegistrationResponseList(registrationRepository.findAll());
 	}
 
 	@Override
 	public String save(RegistrationRequest regrequest) {
 		
-		RegistrationModel regEntity = toEntityConverter.toRegistrationModel(regrequest);
+		RegistrationModel regEntity = requestConverter.toRegistrationModel(regrequest);
 		
-		regRepo.save(regEntity);
+		registrationRepository.save(regEntity);
 		
 		return "Saved";
 	}
@@ -48,16 +48,17 @@ public class RegistrationServiceImpl implements RegistrationService {
 	@Override
 	public RegistrationResponse getById(Long id) {
 		
-		RegistrationModel model = regRepo.getById(id);
-				return toResponse.entityToRegResponse(model);
+		RegistrationModel model = registrationRepository.getById(id);
+				return responseConverter.entityToRegResponse(model);
 	}
 
 	@Override
 	public String deleteRegistartion(Long id) {
 		
-		Optional<RegistrationModel> model = regRepo.findById(id);
+		Optional<RegistrationModel> model = registrationRepository.findById(id);
 		if(model.isPresent()) {
-			regRepo.deleteById(id);
+//			registrationRepository.deleteById(id);
+			
 			return "Deleted";
 		}
 		else {

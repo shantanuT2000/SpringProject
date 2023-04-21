@@ -19,81 +19,114 @@ import java.util.Optional;
 public class CompanyServiceImpl implements CompanyService{
 	
 	@Autowired
-	CompanyRepository companyRepo;
+	private CompanyRepository companyRepository;
 	
 	@Autowired
-    ResponseConverter toResponse;
+    private ResponseConverter responseConverter;
 	
 	@Autowired
-	RequestConverter toEntityConverter;
+	private RequestConverter  requestConverter;
 	
 
 	@Override
 	public List<CompanyResponse> getAllCompanies() {
+		try {
+			List<CompanyModel> entityList = companyRepository.findByIsDeletedFalse();
+			return responseConverter.toCompanyResponseList(entityList);
+		}
+		catch(Exception e) {
+			
+		  e.getMessage();
+		  return null;
+		}
 		
-		List<CompanyModel> entityList = companyRepo.findByIsDeletedFalse();
-		return toResponse.toCompanyResponseList(entityList);
 	}
 
 
 	@Override
 	public String saveCompany(CompanyRequest companyRequest) {
 		
-		CompanyModel entity = toEntityConverter.toCompanyEntity(companyRequest);
-		companyRepo.save(entity);
+		CompanyModel companyModel;
+		try {
+			companyModel = requestConverter.toCompanyEntity(companyRequest);
+			companyRepository.save(companyModel);
+			return "saved";
+		}
+		catch(Exception e) {
+	      
+			return e.getMessage();
+		}
 		
-		return "saved";
+		
+		
+		
 	}
+	
+	//same converter for id
+	
 
 
 	@Override
 	public CompanyResponse getById(Long id) {
 		
-		CompanyModel model = companyRepo.getById(id);
-		return toResponse.entityToCompanyResponse(model);
+		CompanyModel model = companyRepository.getById(id);
+		return responseConverter.entityToCompanyResponse(model);
 	}
 
 
 	@Override
 	public String deleteCompany(Long id) {
 		
-		Optional<CompanyModel> model = companyRepo.findById(id);
-		if(model.isPresent()) {
-			companyRepo.deleteById(id);
-			return "Deleted";
+		try {
+			Optional<CompanyModel> optionalCompanyModel = companyRepository.findById(id);
+			if(optionalCompanyModel.isPresent()) {
+				CompanyModel companyModel = optionalCompanyModel.get();
+				companyModel.setIsDeleted(true);
+				companyRepository.save(companyModel);
+				return "Deleted";
+			}
+			return "Entity not found error cannot delete" ;
+		
+		
+			
 		}
-		return "Entity not found error cannot delete" ;
-	}
-
+		catch(Exception e) {
+			
+			return e.getMessage();
+		}
+		
+}
 
 	@Override
 	public String updateCompany(Long id, CompanyRequest companyRequest) {
 		
-		Optional<CompanyModel> optionalModel = companyRepo.findById(id);
-		if(optionalModel.isPresent()) {
-			CompanyModel model = optionalModel.get();
-			model.setAddress(companyRequest.getAddress());
-			model.setCompanyId(companyRequest.getCompanyId());
-			model.setLegalName(companyRequest.getLegalName());
-			model.setPhoneNo(companyRequest.getPhoneNo());
-			model.setRegistration(companyRequest.getRegistration());
-			model.setUsers(companyRequest.getUsers());
-			companyRepo.save(model);
-			return "Updated";
+		try {
+			Optional<CompanyModel> optionalModel = companyRepository.findById(id);
+			
+			if(optionalModel.isPresent()) {
+				
+				CompanyModel companyModel = optionalModel.get();
+				companyModel.setAddress(companyRequest.getAddress());
+				companyModel.setCompanyId(companyRequest.getCompanyId());
+				companyModel.setLegalName(companyRequest.getLegalName());
+				companyModel.setPhoneNo(companyRequest.getPhoneNo());
+				companyModel.setRegistration(companyRequest.getRegistration());
+				companyModel.setUsers(companyRequest.getUsers());
+				companyRepository.save(companyModel);
+				
+				return "Updated";
+			}
+			
+			return "Company Not found to update ";
 		}
-		return "Company Not found to update ";
+		catch(Exception e) {
+			return e.getMessage();
+		}
 	}
 
 
 	
 
-//	@Override
-//	public String saveCompany() {
-//		companyModel.setUsers(userModel);
-//		companyRepo.save(companyModel);
-//		return "saved";
-//	}
-	
 	
 
 }

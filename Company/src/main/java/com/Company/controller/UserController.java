@@ -31,8 +31,6 @@ public class UserController {
 	public ResponseEntity<List<UserResponse>> get() {
 	 
 		 return ResponseEntity.ok(userService.getUsers());
-	
-		 
 	}
 	
 	@GetMapping("/{id}")

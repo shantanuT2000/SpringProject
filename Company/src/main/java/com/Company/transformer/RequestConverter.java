@@ -1,5 +1,6 @@
 package com.Company.transformer;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.Company.entity.AddressModel;
@@ -14,11 +15,13 @@ import com.Company.request.UserRequest;
 @Component
 public class RequestConverter {
 	
+	
+	
 	public UserModel toUserEntity(UserRequest userRequest) {
 		
 		UserModel userEntity = new UserModel();
         
-		userEntity.setId(userRequest.getId());
+//		userEntity.setId(userRequest.getId());
 		userEntity.setEmail(userRequest.getEmail());
 		userEntity.setFirstName(userRequest.getFirstname());
         userEntity.setLastName(userRequest.getLastname());
@@ -32,13 +35,17 @@ public class RequestConverter {
 		
 		CompanyModel companyModel = new CompanyModel();
 		
-		companyModel.setId(companyRequest.getId());
+		// companyModel.setId(companyRequest.getId());
 		companyModel.setCompanyId(companyRequest.getCompanyId());
 		companyModel.setLegalName(companyRequest.getLegalName());
 		companyModel.setPhoneNo(companyRequest.getPhoneNo());
 		companyModel.setRegistration(companyRequest.getRegistration());
-		companyModel.setUsers(companyRequest.getUsers());
-		companyModel.setAddress(companyRequest.getAddress());
+//		companyModel.setUsers(companyRequest.getUsers());
+//		companyModel.setAddress(companyRequest.getAddress());
+		
+		
+		//responenity
+		
 		
 	return companyModel;
 	}

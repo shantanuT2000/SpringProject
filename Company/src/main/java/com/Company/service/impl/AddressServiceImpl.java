@@ -19,18 +19,18 @@ public class AddressServiceImpl implements AddressService{
 
 	
 	@Autowired
-	RequestConverter toEntityConverter;
+	private RequestConverter requestConverter;
 	
 	@Autowired
-	ResponseConverter toResponse;
+	private ResponseConverter responseConverter;
 	
 	@Autowired
-	AddressRepository addressRepo;
+	private AddressRepository addressRepository;
 	
 	@Override
 	public List<AddressResponse> getAddress() {
 		
-		return toResponse.toAddressResponseList(addressRepo.findAll())   ;
+		return responseConverter.toAddressResponseList(addressRepository.findAll())   ;
 		
 	}
 
@@ -38,24 +38,24 @@ public class AddressServiceImpl implements AddressService{
 	public String saveAddress(AddressRequest addressRequest) {
 		
 		
-		AddressModel addressEntity = toEntityConverter.toAddressEntity(addressRequest);
-		addressRepo.save(addressEntity);
+		AddressModel addressEntity = requestConverter.toAddressEntity(addressRequest);
+		addressRepository.save(addressEntity);
 		return "saved";
 	}
 
 	@Override
 	public AddressResponse getById(Long id) {
 		
-		AddressModel model = addressRepo.getById(id);
-				return toResponse.entityToAddressResponse(model);
+		AddressModel model = addressRepository.getById(id);
+				return responseConverter.entityToAddressResponse(model);
 	}
 
 	@Override
 	public String deleteAddress(Long id) {
 		
-		Optional<AddressModel> model = addressRepo.findById(id);
+		Optional<AddressModel> model = addressRepository.findById(id);
 		if(model.isPresent()) {
-			addressRepo.deleteById(id);
+			addressRepository.deleteById(id);
 			return "Deleted";
 		}
 		else {

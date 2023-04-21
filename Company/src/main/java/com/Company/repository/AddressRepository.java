@@ -21,6 +21,8 @@ public interface AddressRepository extends JpaRepository<AddressModel, Long> {
 //	@Query("update AddressModel set isDeleted=true where id=:id")
 //	public void deleteById(@Param("id") Long id);
 	
+	
+	
 	@Override
 	public AddressModel getById(Long id);
 	
