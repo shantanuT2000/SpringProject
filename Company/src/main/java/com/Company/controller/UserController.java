@@ -38,6 +38,11 @@ public class UserController {
 		return ResponseEntity.ok(userService.getUserById(id));
 	}
 	
+	@GetMapping("/company/{id}")
+	public ResponseEntity<List<UserResponse>> getUserByComapnyId(@PathVariable Long id){
+		return ResponseEntity.ok(userService.getUsersByCompanyId(id));
+	}
+	
 	@PostMapping(path="/save")
 	public ResponseEntity<String> save(@RequestBody UserRequest userRequest) {
 		return ResponseEntity.ok(userService.saveUser(userRequest));

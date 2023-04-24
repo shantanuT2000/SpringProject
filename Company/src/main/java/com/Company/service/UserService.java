@@ -17,6 +17,8 @@ public interface UserService {
 	
 	public UserResponse getUserById(Long id);
 	
+	public List<UserResponse> getUsersByCompanyId(Long id);
+	
 	public String saveUser(UserRequest userRequest);
 	
 	public String updateUser(Long id,UserRequest userRequest);

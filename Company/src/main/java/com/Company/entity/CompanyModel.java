@@ -43,9 +43,13 @@ public class CompanyModel {
     private RegistrationModel registration;
     
     @OneToMany(cascade=CascadeType.ALL)
-    @JoinColumn(name="company_id")
-//    
+    @JoinColumn(name="company_id") 
+    @JsonManagedReference
     private List<UserModel> users;
+
+
+
+    
     
     @OneToOne(cascade=CascadeType.ALL)
     private AddressModel address;
@@ -127,9 +131,9 @@ public class CompanyModel {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Boolean getIsDeleted() {
-		return isDeleted;
-	}
+//	public Boolean getIsDeleted() {
+//		return isDeleted;
+//	}
 
 	public void setIsDeleted(Boolean isDeleted) {
 		this.isDeleted = isDeleted;

@@ -1,6 +1,6 @@
 package com.Company.entity;
 
-//import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,12 +8,9 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
-//import jakarta.persistence.FetchType;
-//
 import jakarta.persistence.Id;
-//import jakarta.persistence.JoinColumn;
-//import jakarta.persistence.ManyToOne;
-
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 
@@ -27,7 +24,7 @@ public class UserModel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(name="firstname",length=26)
+	@Column(name="firstname")
 	private String firstName;
 	
 	
@@ -35,7 +32,10 @@ public class UserModel {
 	@Column(name="lastname",length=26)
 	private String lastName;
 
-
+    @Column(name="is_deleted")
+    private Boolean isDeleted = false;
+    
+	
 	
 	@Enumerated(EnumType.ORDINAL)
 	@Column(name="type")
@@ -45,10 +45,16 @@ public class UserModel {
 	private String email;
 	
 	
-	@Column(name="password",length=18)
+	@Column(name="password",length=100)
 	private String password;
-	
 
+//    @ManyToOne
+//    private CompanyModel companyModel;
+
+	 @ManyToOne
+	 @JoinColumn(name ="company_id")
+	 @JsonBackReference
+	 private CompanyModel company ;
 
 	public Long getId() {
 		return id;
@@ -70,13 +76,19 @@ public class UserModel {
 		return lastName;
 	}
 
-//	public Boolean getIsDeleted() {
-//		return isDeleted;
-//	}
-//
-//	public void setIsDeleted(Boolean isDeleted) {
-//		this.isDeleted = isDeleted;
-//	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
+
+	public CompanyModel getCompany() {
+		return company;
+	}
+
+	public void setCompany(CompanyModel company) {
+		this.company = company;
+	}
+
 
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
@@ -107,14 +119,15 @@ public class UserModel {
 		this.password = password;
 	}
 	
-	public UserModel(Long id, String firstName, String lastName, Type type, String email,String password) {
+	public UserModel(String firstName, String lastName, Type type, String email,String password) {
 		super();
-		this.id = id;
+//		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.type = type;
 		this.email = email;
 		this.password = password;
+		
 	}
 
 	public UserModel() {

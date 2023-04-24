@@ -27,7 +27,7 @@ public class CompanyController {
 	
 	@Autowired
 	UserService userService;
-	
+	//naming stanereed 
 	@GetMapping(path="/")
 	public ResponseEntity<List<CompanyResponse>> get(){
 		

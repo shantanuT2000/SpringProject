@@ -1,16 +1,9 @@
 package com.Company.repository;
 
 import java.util.List;
-
-
 import org.springframework.data.jpa.repository.JpaRepository;
-//import org.springframework.data.jpa.repository.Modifying;
-//import org.springframework.data.jpa.repository.Query;
-//import org.springframework.data.repository.query.Param;
-
 import com.Company.entity.UserModel;
 
-//import jakarta.transaction.Transactional;
 
 public interface UserRepository extends JpaRepository<UserModel,Long> {
 
@@ -19,11 +12,7 @@ public interface UserRepository extends JpaRepository<UserModel,Long> {
 	
 	@Override
 	public UserModel getById(Long id);
-
-//	@Transactional
-//	@Modifying
-//	@Query("update UserModel set isDeleted=true where id=:id")
-//	public void deleteById(@Param("id") Long id);
 	
-//	public List<UserModel> findByIsDeletedFalse();
+	public List<UserModel> findByIsDeletedFalse();
+
 }

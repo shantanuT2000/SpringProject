@@ -12,7 +12,7 @@ import com.Company.entity.RegistrationModel;
 public interface RegistrationRepository extends JpaRepository<RegistrationModel, Long>{
 	
 
-	public List<RegistrationModel> findAll();
+	public List<RegistrationModel> findByIsDeletedFalse();
 	
 	
 	

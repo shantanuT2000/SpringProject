@@ -6,7 +6,9 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.Company.entity.CompanyModel;
 import com.Company.entity.UserModel;
+import com.Company.repository.CompanyRepository;
 import com.Company.repository.UserRepository;
 import com.Company.request.UserRequest;
 import com.Company.response.UserResponse;
@@ -19,60 +21,148 @@ public class UserServiceImpl implements UserService {
 	
 	
 	@Autowired
-	UserRepository userRepository;
-	
-	@Autowired 
-	RequestConverter  requestConverter;
+	private UserRepository userRepository;
 	
 	@Autowired
-	ResponseConverter responseConverter;
+	private CompanyRepository companyRepository;
+	
+	@Autowired 
+	private RequestConverter  requestConverter;
+	
+	@Autowired
+	private ResponseConverter responseConverter;
 
 	@Override
 	public List<UserResponse> getUsers() {
 		
-		List<UserModel> user = userRepository.findAll();
+		List<UserModel> userModelList = null;
 		
-		return responseConverter.toUserResponseList(user);
+		try {
+			userModelList = userRepository.findByIsDeletedFalse();
+		}
+		catch(Exception e) {
+			e.getMessage();
+		}
+		
+		return responseConverter.toUserResponseList(userModelList);
 		
 	}
 	
 	@Override
 	public String saveUser(UserRequest userRequest) {
-		UserModel userEntity = requestConverter.toUserEntity(userRequest);
-	    userRepository.save(userEntity);
-		return "saved";
+		
+		try 
+		{
+			UserModel userEntity = requestConverter.toUserEntity(userRequest);
+		    userRepository.save(userEntity);
+		    return "saved";
+		    
+		}
+		catch(Exception e) {
+			
+			return e.getMessage();
+			
+		}
+		
+	}
+	
+	@Override
+	public List<UserResponse> getUsersByCompanyId(Long id){
+		
+		try {
+			  Optional<CompanyModel> optionalCompanyModel= companyRepository.findById(id); 
+			    if(optionalCompanyModel.isPresent()) {
+			    	CompanyModel companyModel = optionalCompanyModel.get();
+			    	List<UserModel> userModelList = companyModel.getUsers();
+			    	return responseConverter.toUserResponseList(userModelList);
+			    }
+			    return null;
+		}
+		catch(Exception e) {
+			e.getMessage();
+			return null;
+		}
+		
+	  
+		
 	}
 
 	@Override
 	public String updateUser(Long id,UserRequest userRequest) {
-		Optional<UserModel> user = userRepository.findById(id);
-		if(user.isPresent()) {
-			UserModel savedEntity = user.get();
-			savedEntity.setEmail(userRequest.getEmail());
-			savedEntity.setFirstName(userRequest.getFirstname());
-			savedEntity.setLastName(userRequest.getLastname());
-			savedEntity.setPassword(userRequest.getPassword());
-			savedEntity.setType(userRequest.getType());
-			
-			userRepository.save(savedEntity);
-			return "Updated";
-		}
 		
-		return "User Not found";
+		try {
+			Optional<UserModel> user = userRepository.findById(id);
+			if(user.isPresent()) {
+				UserModel savedEntity = user.get();
+				savedEntity.setEmail(userRequest.getEmail());
+				savedEntity.setFirstName(userRequest.getFirstname());
+				savedEntity.setLastName(userRequest.getLastname());
+				savedEntity.setPassword(userRequest.getPassword());
+				savedEntity.setType(userRequest.getType());
+				
+				try {
+					userRepository.save(savedEntity);
+
+				}
+				catch(Exception e) {
+					e.getMessage();
+				}
+				return "Updated";
+			}
+			
+			return "User Not found";
+		}
+		catch(Exception e) {
+			return e.getMessage();
+		}
+
 	}
 
 	@Override
 	public String deleteUser(Long id) {
-		userRepository.deleteById(id);
-		return "Deleted";
+		
+		try {
+			Optional<UserModel> optionalUserModel = userRepository.findById(id);
+			
+			if(optionalUserModel.isPresent()) {
+				UserModel newUserModel = optionalUserModel.get();
+				newUserModel.setIsDeleted(true);
+				
+				try {
+					userRepository.save(newUserModel);
+				}
+				
+				catch(Exception e) {
+					e.getMessage();
+				}
+				return "Deleted";
+			}
+			else {
+				return "User Not found error";
+			}
+			
+			
+		}
+		catch(Exception e) {
+			return e.getMessage();
+		}
+		
+		
 	}
 
 	@Override
 	public UserResponse getUserById(Long id) {
 		
-		UserModel model = userRepository.getById(id);
+		UserModel userModel = null;
 		
-		return responseConverter.entityToUserResponse(model);
+		try {
+			 userModel = userRepository.getById(id);
+		}
+		catch(Exception e) {
+			e.getMessage();
+		}
+		
+	 return responseConverter.entityToUserResponse(userModel);
 	}
 	
 	

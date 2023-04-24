@@ -3,6 +3,7 @@ package com.Company.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,10 @@ import com.Company.request.RegistrationRequest;
 import com.Company.response.RegistrationResponse;
 import com.Company.service.RegistrationService;
 
+import jakarta.persistence.DiscriminatorValue;
+
 @RestController
+
 @RequestMapping("/Registration")
 public class RegistrationController {
  
@@ -24,18 +28,21 @@ public class RegistrationController {
 	@Autowired
 	RegistrationService registrationService;
 	
+	
 	@GetMapping
 	public ResponseEntity<List<RegistrationResponse>> getRegistrationdeets(){
 		
 		return ResponseEntity.ok(registrationService.getRegistrationdetails());
 	}
 	
-	@GetMapping("/{id}")
-     public ResponseEntity<RegistrationResponse> getregDeetsById(@PathVariable Long id){
+	 @GetMapping("/{id}")
+	 
+     public ResponseEntity<RegistrationResponse> getregDeetsById( @Value("${1}") @PathVariable Long id){
 		
 		
 		return ResponseEntity.ok( registrationService.getById(id)) ;
 	}
+	
 	
 	@PostMapping("/save")
 	public ResponseEntity<String> saveRegDeets(@RequestBody RegistrationRequest regRequest){
@@ -44,6 +51,7 @@ public class RegistrationController {
 	}
 	
 	@DeleteMapping("/delete/{id}")
+
 	public ResponseEntity<String> deleteRegDeets(@PathVariable Long id){
 		
 		return ResponseEntity.ok(registrationService.deleteRegistartion(id));

@@ -32,7 +32,7 @@ public class RegistrationServiceImpl implements RegistrationService {
 	@Override
 	public List<RegistrationResponse> getRegistrationdetails() {
 		
-		return responseConverter.toRegistrationResponseList(registrationRepository.findAll());
+		return responseConverter.toRegistrationResponseList(registrationRepository.findByIsDeletedFalse());
 	}
 
 	@Override

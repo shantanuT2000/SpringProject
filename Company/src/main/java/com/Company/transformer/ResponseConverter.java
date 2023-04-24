@@ -22,12 +22,13 @@ public class ResponseConverter {
 	   UserResponse userResponse = new UserResponse();
 	   
 	   userResponse.setId(userEntity.getId());
-//	   userResponse.setCompany(userEntity.getCompanyUsers());
+	   userResponse.setCompany(userEntity.getCompany());
 	   userResponse.setEmail(userEntity.getEmail());
 	   userResponse.setFirstname(userEntity.getFirstName());
 	   userResponse.setLastname(userEntity.getLastName());
 	   userResponse.setType(userEntity.getType());
 	   userResponse.setPassword(userEntity.getPassword());
+	   
 	   return userResponse;
    }
    
@@ -72,12 +73,12 @@ public class ResponseConverter {
 	   regResponse.setCompany(regEntity.getCompany());
 	   regResponse.setDate(regEntity.getDate());
 	   regResponse.setLegalName(regEntity.getLegalName());
-	   
 	   regResponse.setRegistrationId(regEntity.getRegistrationId());
 	   return regResponse;
    }
    
    public RegistrationResponse eTorModel(RegistrationModel regEntity) {
+	   
 	   
 	   
 	   return null;

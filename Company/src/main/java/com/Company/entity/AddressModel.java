@@ -28,8 +28,16 @@ public class AddressModel {
 	@Column(name="pincode")
 	private String pincode;
 	
-//	@Column(name="is_deleted")
-//	private Boolean isDeleted=false;
+	@Column(name="is_deleted")
+	private Boolean isDeleted=false;
+
+//	public Boolean getIsDeleted() {
+//		return isDeleted;
+//	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
 	public Long getId() {
 		return id;

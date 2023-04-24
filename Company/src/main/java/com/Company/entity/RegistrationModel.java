@@ -2,11 +2,11 @@ package com.Company.entity;
 
 import java.sql.Date;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
+
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -29,15 +29,16 @@ public class RegistrationModel {
 	
 	@Column(name="date")
     private Date date;	
-	
-	@OneToOne(mappedBy = "registration",fetch=FetchType.LAZY)
-	@JsonBackReference
-	private CompanyModel company;
-	
-//	@Column(name="is_deleted")
-//	private Boolean isDeleted = false;
 
 	
+	@OneToOne(mappedBy = "registration")
+	@JsonIgnore
+	private CompanyModel company;
+	
+
+
+	@Column(name="is_deleted")
+	private Boolean isDeleted = false;
 	
 	
 	public Long getId() {
@@ -53,6 +54,14 @@ public class RegistrationModel {
 		this.company = company;
 	}
 
+	
+//	public Boolean getIsDeleted() {
+//		return isDeleted;
+//	}
+
+	public void setIsDeleted(Boolean isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 	
 	public RegistrationModel() {
 		super();
